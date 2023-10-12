@@ -1,0 +1,55 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+.presentation {
+  align-items: center;
+  display: flex;
+  gap: 1.5rem;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
+
+.presentation__title {
+  font-size: 3rem;
+  line-height: 58px;
+}
+
+.presentation__description {
+  font-size: 1.5rem;
+  line-height: 29px;
+}
+
+.presentation__button {
+  background: linear-gradient(180deg, #E4E4E4 0%, #F7F7F7 100%);
+  border: 1px solid #000000;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  height:  31px;
+  line-height: 19px;
+  padding: 6px 12px;
+  white-space: nowrap;
+  width:  110px;
+}
+
+.presentation__button:hover { 
+  opacity: 0.7;
+  transition: opacity 250ms ease-in;
+}
+
+.presentation__button input[type="file"] {
+  display: none;
+}
