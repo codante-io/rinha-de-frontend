@@ -1,35 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="src/styles/index.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
 
   <title>Rinha de frontend</title>
 </head>
 <body>
-  <main class="presentation">
-    <h1 class="presentation__title">
-      JSON Tree Viewer
-    </h1>
-    <p class="presentation__description">
-      Simple JSON Viewer that runs completely on-client. No data exchange 
-    </p>
-    
-    <section class="filefield">
-      <label class="filefield__button" for='upload-file-json'>
-        Load JSON
-      </label>
-      <input type="file" id="upload-file-json" accept="application/json" aria-invalid="false">
-      <p class="filefield__error" id='invalid-file-error'>
-        Invalid file. Please load a valid JSON file.
+  <main class="content content--treeviewer">
+    <section class="presentation">
+      <h1 class="presentation__title">
+        JSON Tree Viewer
+      </h1>
+      <p class="presentation__description">
+        Simple JSON Viewer that runs completely on-client. No data exchange 
       </p>
+      
+      <section class="filefield">
+        <label class="filefield__button" for='upload-file-json'>
+          Load JSON
+        </label>
+        <input type="file" id="upload-file-json" accept="application/json" aria-invalid="false">
+        <p class="filefield__error" id='invalid-file-error'>
+          Invalid file. Please load a valid JSON file.
+        </p>
+      </section>
     </section>
 
-    <script src="src/load-file/index.js"></script>
+    <section class="treeviewer" id='json-tree-viewer-container'>
+      <h1 class="treeviewer__title" id="json-file-name"></h1>
+
+      <div class="content" id="json-tree-viewer">
+        <div>
+          <span class="content__key">
+            Actors
+          </span>
+          :
+          <span>[</span>
+        </div>
+        <div>
+          <span>-</span>
+          <span class="content__position">
+            0
+          </span>
+        </div>
+        <div>
+          <span>-</span>
+          <span>-</span>
+          <span class="content__key">
+            name
+          </span>
+          :
+          <span class="content__key">"Tom Cruise"</span>
+        </div>
+        <div>
+          <span>-</span>
+          <span>-</span>
+          <span class="content__key">
+            age
+          </span>
+          :
+          <span>56</span>
+        </div>
+      </div>
+    </section>
   </main>
+
+  <script src="src/load-file/index.js"></script>
 </body>
 </html>
