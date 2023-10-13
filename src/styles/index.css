@@ -15,10 +15,11 @@ body {
 .presentation {
   align-items: center;
   display: flex;
-  gap: 1.5rem;
   flex-direction: column;
-  justify-content: center;
+  gap: 1.5rem;
   height: 100%;
+  justify-content: center;
+  padding: 0 1rem;
   width: 100%;
 }
 
@@ -32,24 +33,37 @@ body {
   line-height: 29px;
 }
 
-.presentation__button {
+.filefield__button {
   background: linear-gradient(180deg, #E4E4E4 0%, #F7F7F7 100%);
   border: 1px solid #000000;
   border-radius: 5px;
   cursor: pointer;
+  display: flex;
   font-size: 1rem;
   height:  31px;
   line-height: 19px;
+  margin: 0 auto 1.5rem;
   padding: 6px 12px;
   white-space: nowrap;
   width:  110px;
 }
 
-.presentation__button:hover { 
+.filefield__button:hover { 
   opacity: 0.7;
   transition: opacity 250ms ease-in;
 }
 
-.presentation__button input[type="file"] {
+.filefield input[type="file"] {
   display: none;
+}
+
+.filefield__error {
+  color: #BF0E0E;
+  font-size: 1rem;
+  line-height: 19px;
+  display: none;
+}
+
+.filefield--invalid .filefield__error {
+  display: flex;
 }
