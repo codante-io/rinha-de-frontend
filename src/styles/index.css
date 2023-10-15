@@ -95,6 +95,19 @@ body {
   color: #BFBFBF;
 }
 
+.treeviewer .content__paren {
+  color: #F2CAB8;
+}
+
+.treeviewer .content__ident::before {
+  border-left: 1px solid #BFBFBF;
+  content: "";
+  display: flex;
+  height: 42px;
+  width: 6px;
+  position: absolute;
+}
+
 .content {
   height: 100%;
 }
