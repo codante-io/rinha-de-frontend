@@ -68,46 +68,6 @@ body {
   display: flex;
 }
 
-.treeviewer {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin: 0 auto;
-  max-width: calc(638px + 48px);
-  padding: 1.5rem 1.5rem 3rem;  
-}
-
-.treeviewer__title {
-  font-size: 32px;
-  font-weight: 700;
-}
-
-.treeviewer .content {
-  font-weight: 400;
-  font-size: 1rem;
-}
-
-.treeviewer .content__key {
-  color: #4E9590;
-}
-
-.treeviewer .content__position {
-  color: #BFBFBF;
-}
-
-.treeviewer .content__paren {
-  color: #F2CAB8;
-}
-
-.treeviewer .content__ident::before {
-  border-left: 1px solid #BFBFBF;
-  content: "";
-  display: flex;
-  height: 42px;
-  width: 6px;
-  position: absolute;
-}
-
 .content {
   height: 100%;
 }

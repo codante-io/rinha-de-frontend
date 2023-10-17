@@ -6,6 +6,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="src/styles/index.css">
+  <link rel="stylesheet" href="src/styles//tree-viewer.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
 
   <title>Rinha de frontend</title>
@@ -31,11 +32,13 @@
       </section>
     </section>
 
-    <section class="treeviewer" id='json-tree-viewer-container'>
-      <h1 class="treeviewer__title" id="json-file-name"></h1>
+   
 
-      <div class="content" id="json-tree-viewer">
-        <div>
+    <section class="treeviewer" id='json-tree-viewer-container'>
+      <h1 class="treeviewer__title" id="json-file-name">adasdadsasd sad a d</h1>
+      
+      <div class="treeviewer__content tree" id="json-tree-viewer">
+        <!-- <div>
           <span class="content__key">
             Actors
           </span>
@@ -55,7 +58,7 @@
             name
           </span>
           :
-          <span>"Tom Cruise"</span>
+          <span class="content__value">"Tom Cruise"</span>
         </div>
         <div>
           <span class="content__ident">-</span>
@@ -64,8 +67,75 @@
             age
           </span>
           :
-          <span>56</span>
-        </div>
+          <span class="content__value">56</span>
+        </div> -->
+        <details class="tree__arr" open>
+          <summary class="tree__key">
+            Actors:
+          </summary>
+
+          <details class="tree__obj" open>
+            <summary class="tree__position">
+              0:
+            </summary>
+
+            <div class="tree__key">
+              name: <span class="tree__value">"Tom Cruise"</span>
+            </div>
+            <div class="tree__key">
+              agr: <span class="tree__value">"56"</span>
+            </div>
+
+            <details class="tree__arr" open>
+              <summary class="tree__key">
+                children:
+              </summary>
+
+              <div class="tree__position">
+                0: <span class="tree__value">"Susi Cruise"</span>
+              </div>
+              <div class="tree__position">
+                1: <span class="tree__value">"Isabella Jane Cruise"</span>
+              </div>
+              <div class="tree__position">
+                2: <span class="tree__value">"Connor"</span>
+              </div>
+            </details>
+          </details>
+
+          <details class="tree__obj" open>
+            <summary class="tree__position">
+              1:
+            </summary>
+
+            <div class="tree__key">
+              name: <span class="tree__value">"Tom Cruise"</span>
+            </div>
+            <div class="tree__key">
+              agr: <span class="tree__value">"56"</span>
+            </div>
+
+            <details class="tree__arr" open>
+              <summary class="tree__key">
+                children:
+              </summary>
+
+              <div class="tree__position">
+                0: <span class="tree__value">"Susi Cruise"</span>
+              </div>
+              <div class="tree__position">
+                1: <span class="tree__value">"Isabella Jane Cruise"</span>
+              </div>
+              <div class="tree__position">
+                2: <span class="tree__value">"Connor"</span>
+              </div>
+            </details>
+
+            <div class="tree__key">
+              LastKey: <span class="tree__value">"Last value"</span>
+            </div>
+          </details>
+        </details>
       </div>
     </section>
   </main>

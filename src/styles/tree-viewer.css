@@ -1,0 +1,81 @@
+.treeviewer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0 auto;
+  padding: 24px 0;
+  width: 638px;
+}
+
+summary::-webkit-details-marker {
+  display: none;
+}
+
+summary {
+  list-style: none;
+}
+
+.treeviewer__content {
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 28px;
+}
+
+.tree__key {
+  color: #4E9590;
+}
+
+.tree__value {
+  color: #000000;
+}
+
+.tree__position {
+  color: #BFBFBF;
+}
+
+.tree__arr, .tree__obj {
+  position: relative;
+}
+
+.tree__arr, .tree__obj {
+  padding-left: 1.25rem;
+}
+
+.tree__arr > .tree__key, .tree__obj > .tree__position {
+  margin-left: -1.25rem;
+}
+
+.tree__arr {
+  padding-bottom: 1.25rem;
+}
+
+.tree__arr[open]::before, .tree__obj[open]::before {
+  content: '';
+  position: absolute;
+  border-left: 1px solid #BFBFBF;
+  left: 0.15rem;
+  top: 1.75rem;
+}
+
+.tree__obj::before {
+  height: calc(100% - 2.3rem);
+}
+
+.tree__arr::before {
+  height: calc(100% - 1.75rem * 2);
+}
+
+.tree__arr[open] > .tree__key::after {
+  content: "[";
+  color: #F2CAB8;
+  font-weight: 700;
+}
+
+.tree__arr[open]::after {
+  content: "]";
+  color: #F2CAB8;
+  font-weight: 700;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
