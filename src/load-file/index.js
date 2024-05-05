@@ -35,10 +35,52 @@ function showJsonTreeViewer(filename, json) {
   content.classList.add('content--treeviewer')
   
   jsonFileName.innerHTML = filename
-  jsonTreeViewer.innerHTML = parseJson(json)
+  jsonTreeViewer.innerHTML = parseJsonToHtml(parseJson(json))
 }
 
 function parseJson(json) {
-  console.log(JSON.parse(json))
-  return JSON.stringify(json)
+  return JSON.parse(json)
+}
+
+function parseJsonToHtml(json, fromArray) {
+  let innerHtml = ""
+  if (typeof json !== 'object') {
+    return json
+  }
+
+  const e = Object.entries(json)
+
+  for (const [k, v] of e) {
+    const isArr = Array.isArray(json)
+    const simpleArr = isArr && v[0] !== "object"
+    if (typeof v !== 'object' || simpleArr) {
+      innerHtml += `<div class="${isArr ? 'tree__position' : 'tree__key'} inline">
+        ${k}: <span class="tree__value">${v}</span>
+      </div>`
+      continue
+    } 
+    
+    if (Array.isArray(v)) {
+      innerHtml += `
+        <details class="tree__arr" open>
+          <summary class="tree__key">
+            ${k}:
+          </summary>
+          ${parseJsonToHtml(v, k)}
+        </details>
+      `
+      continue
+    }
+
+    innerHtml += `
+      <details class="tree__obj" open>
+        <summary class="${fromArray ? "tree__position" : "tree__key"}">
+          ${fromArray || k}:
+        </summary>
+        ${parseJsonToHtml(v)}
+      </details>
+    `
+  }
+
+  return innerHtml;
 }

@@ -41,7 +41,7 @@ summary {
   padding-left: 1.25rem;
 }
 
-.tree__arr > .tree__key, .tree__obj > .tree__position {
+.tree__key:not(.inline), .tree__position:not(.inline) {
   margin-left: -1.25rem;
 }
 
