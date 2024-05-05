@@ -6,3 +6,5 @@
 
 - [ ] Starting with array position color
 <img width="94" alt="image" src="https://github.com/Luisgustavom1/rinha-frontend/assets/65229051/68ba6035-0cbe-47fd-b0b8-7784699731e3">
+
+- [ ] " around of strings
