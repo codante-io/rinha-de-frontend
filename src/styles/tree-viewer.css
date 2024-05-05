@@ -33,6 +33,11 @@ summary {
   color: #BFBFBF;
 }
 
+.tree__emptyArr {
+  color: #F2CAB8;
+  font-weight: 700;
+}
+
 .tree__arr, .tree__obj {
   position: relative;
 }
@@ -41,7 +46,7 @@ summary {
   padding-left: 1.25rem;
 }
 
-.tree__key:not(.inline), .tree__position:not(.inline) {
+.tree__key:not(.tree__inline), .tree__position:not(.tree__inline) {
   margin-left: -1.25rem;
 }
 

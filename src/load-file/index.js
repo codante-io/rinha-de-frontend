@@ -51,12 +51,19 @@ function parseJsonToHtml(json, fromArray) {
   const e = Object.entries(json)
 
   for (const [k, v] of e) {
-    const isArr = Array.isArray(v)
-    const simpleArr = isArr && typeof v[0] !== "object"
-    const simpleObj = typeof v !== 'object' || simpleArr
+    const simpleObj = typeof v !== 'object'
     if (simpleObj) {
-      innerHtml += `<div class="${fromArray ? 'tree__position' : 'tree__key'} inline">
+      innerHtml += `<div class="${fromArray ? 'tree__position' : 'tree__key'} tree__inline">
         ${k}: <span class="tree__value">${v}</span>
+      </div>`
+      continue
+    }   
+
+    const isArr = Array.isArray(v)
+    const emptyArr = isArr && !v.length
+    if (emptyArr) {
+      innerHtml += `<div class="${fromArray ? 'tree__position' : 'tree__key'} tree__inline">
+        ${k}: <span class="tree__value tree__emptyArr">[]</span>
       </div>`
       continue
     } 
