@@ -27,6 +27,12 @@ function showErrorMessage() {
 }
 
 function showJsonTreeViewer(filename, json) {
+  const [jsonParsed, error] = parseJson(json)
+  if (error) {
+    showErrorMessage();
+    return
+  }
+
   const content = document.querySelector('.content')
   const jsonTreeViewer = document.querySelector("#json-tree-viewer")
   const jsonFileName = document.querySelector("#json-file-name")
@@ -35,11 +41,15 @@ function showJsonTreeViewer(filename, json) {
   content.classList.add('content--treeviewer')
   
   jsonFileName.innerHTML = filename
-  jsonTreeViewer.innerHTML = parseJsonToHtml(parseJson(json))
+  jsonTreeViewer.innerHTML = parseJsonToHtml(jsonParsed)
 }
 
 function parseJson(json) {
-  return JSON.parse(json)
+  try {
+    return [JSON.parse(json), undefined]
+  } catch (e) {
+    return [undefined, e]
+  }
 }
 
 function parseJsonToHtml(json, fromArray) {
@@ -51,10 +61,11 @@ function parseJsonToHtml(json, fromArray) {
   const e = Object.entries(json)
 
   for (const [k, v] of e) {
-    const simpleObj = typeof v !== 'object'
+    const isNullable = v === null || v === undefined
+    const simpleObj = typeof v !== 'object' || isNullable
     if (simpleObj) {
       innerHtml += `<div class="${fromArray ? 'tree__position' : 'tree__key'} tree__inline">
-        ${k}: <span class="tree__value">${v}</span>
+        ${k}: <span class="tree__value ${isNullable ? "tree__nullable" : ""}">${v}</span>
       </div>`
       continue
     }   
@@ -71,10 +82,10 @@ function parseJsonToHtml(json, fromArray) {
     if (isArr) {
       innerHtml += `
         <details class="tree__arr" open>
-          <summary class="tree__key">
+        <summary class="${fromArray ? "tree__position" : "tree__key"}">
             ${k}:
           </summary>
-          ${parseJsonToHtml(v, k)}
+          ${parseJsonToHtml(v, true)}
         </details>
       `
       continue

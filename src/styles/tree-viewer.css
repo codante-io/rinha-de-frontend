@@ -38,6 +38,10 @@ summary {
   font-weight: 700;
 }
 
+.tree__nullable {
+  color: #4d9aff;
+}
+
 .tree__arr, .tree__obj {
   position: relative;
 }
