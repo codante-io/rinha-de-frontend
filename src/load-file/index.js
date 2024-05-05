@@ -1,5 +1,7 @@
 const loadJsonFile = document.querySelector("#upload-file-json")
 
+const worker = new Worker("src/load-file/worker.js");
+
 loadJsonFile.addEventListener('change', (e) => {
   const file = e.target.files[0];
   if (!file) return;
@@ -7,15 +9,17 @@ loadJsonFile.addEventListener('change', (e) => {
   const invalidFile = file.type !== "application/json"
   if (invalidFile) showErrorMessage();
 
-  const reader = new FileReader()
-  reader.readAsText(file)
-  reader.onload = function() {
-    showJsonTreeViewer(file.name, reader.result)
-  }
-  reader.onerror = function() {
-    showErrorMessage()
-  }
+  worker.postMessage(file);
 })
+
+worker.onmessage = function(event) {
+  const { name, json } = event.data
+  showJsonTreeViewer(name, json)
+}
+
+worker.onmessageerror = function() {
+  showErrorMessage()
+}
 
 function showErrorMessage() {
   const filefield = document.querySelector('.filefield')
