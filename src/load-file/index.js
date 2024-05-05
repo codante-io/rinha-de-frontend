@@ -51,16 +51,17 @@ function parseJsonToHtml(json, fromArray) {
   const e = Object.entries(json)
 
   for (const [k, v] of e) {
-    const isArr = Array.isArray(json)
-    const simpleArr = isArr && v[0] !== "object"
-    if (typeof v !== 'object' || simpleArr) {
-      innerHtml += `<div class="${isArr ? 'tree__position' : 'tree__key'} inline">
+    const isArr = Array.isArray(v)
+    const simpleArr = isArr && typeof v[0] !== "object"
+    const simpleObj = typeof v !== 'object' || simpleArr
+    if (simpleObj) {
+      innerHtml += `<div class="${fromArray ? 'tree__position' : 'tree__key'} inline">
         ${k}: <span class="tree__value">${v}</span>
       </div>`
       continue
     } 
     
-    if (Array.isArray(v)) {
+    if (isArr) {
       innerHtml += `
         <details class="tree__arr" open>
           <summary class="tree__key">
@@ -75,7 +76,7 @@ function parseJsonToHtml(json, fromArray) {
     innerHtml += `
       <details class="tree__obj" open>
         <summary class="${fromArray ? "tree__position" : "tree__key"}">
-          ${fromArray || k}:
+          ${k}:
         </summary>
         ${parseJsonToHtml(v)}
       </details>
