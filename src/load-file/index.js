@@ -1,8 +1,14 @@
-const loadJsonFile = document.querySelector("#upload-file-json")
+const LINE_HEIGHT = 28
+const EXTRA_LINES = 2
+
+const uploadJsonFileEl = document.querySelector("#upload-file-json")
+const contentEl = document.querySelector('.content')
+const jsonFileNameEl = document.querySelector("#json-file-name")
+const jsonTreeViewerEl = document.querySelector("#json-tree-viewer")
 
 const worker = new Worker("src/load-file/worker.js");
 
-loadJsonFile.addEventListener('change', (e) => {
+uploadJsonFileEl.addEventListener('change', (e) => {
   const file = e.target.files[0];
   if (!file) return;
 
@@ -13,8 +19,8 @@ loadJsonFile.addEventListener('change', (e) => {
 })
 
 worker.onmessage = function(event) {
-  const { name, json } = event.data
-  showJsonTreeViewer(name, json)
+  const { name, jsonEntries } = event.data
+  showJsonTreeViewer(name, jsonEntries)
 }
 
 worker.onmessageerror = function() {
@@ -30,41 +36,18 @@ function showErrorMessage() {
   input.setAttribute('aria-invalid', "true")
 }
 
-function showJsonTreeViewer(filename, json) {
-  const [jsonParsed, error] = parseJson(json)
-  if (error) {
-    showErrorMessage();
-    return
-  }
-
-  const content = document.querySelector('.content')
-  const jsonTreeViewer = document.querySelector("#json-tree-viewer")
-  const jsonFileName = document.querySelector("#json-file-name")
-
-  content.classList.remove('content--presentation')
-  content.classList.add('content--treeviewer')
+function showJsonTreeViewer(filename, entries) {
+  contentEl.classList.remove('content--presentation')
+  contentEl.classList.add('content--treeviewer')
   
-  jsonFileName.innerHTML = filename
-  jsonTreeViewer.innerHTML = parseJsonToHtml(jsonParsed)
+  jsonFileNameEl.innerHTML = filename
+  jsonTreeViewerEl.innerHTML = renderEntries(entries)
 }
 
-function parseJson(json) {
-  try {
-    return [JSON.parse(json), undefined]
-  } catch (e) {
-    return [undefined, e]
-  }
-}
-
-function parseJsonToHtml(json, fromArray) {
+function renderEntries(entries, fromArray) {
   let innerHtml = ""
-  if (typeof json !== 'object') {
-    return json
-  }
 
-  const e = Object.entries(json)
-
-  for (const [k, v] of e) {
+  for (const [k, v] of entries) {
     const isNullable = v === null || v === undefined
     const simpleObj = typeof v !== 'object' || isNullable
     if (simpleObj) {
@@ -89,7 +72,7 @@ function parseJsonToHtml(json, fromArray) {
         <summary class="${fromArray ? "tree__position" : "tree__key"}">
             ${k}:
           </summary>
-          ${parseJsonToHtml(v, true)}
+          ${renderEntries(Object.entries(v), true)}
         </details>
       `
       continue
@@ -100,7 +83,7 @@ function parseJsonToHtml(json, fromArray) {
         <summary class="${fromArray ? "tree__position" : "tree__key"}">
           ${k}:
         </summary>
-        ${parseJsonToHtml(v)}
+        ${renderEntries(Object.entries(v))}
       </details>
     `
   }

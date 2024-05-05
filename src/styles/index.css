@@ -85,5 +85,5 @@ body {
 }
 
 .content--treeviewer .treeviewer {
-  display: flex;
+  display: grid;
 }

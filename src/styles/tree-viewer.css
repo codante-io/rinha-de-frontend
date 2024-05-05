@@ -1,10 +1,19 @@
+#json-tree-viewer {
+  height: 100%;
+  overflow: auto;
+}
+
+#json-tree-viewer div {
+  height: 28px;
+}
+
 .treeviewer {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  gap: 1rem;
+  display: grid;
+  grid-template-rows: 2rem calc(100vh - 6rem);
   margin: 0 auto;
-  padding: 24px 0;
-  width: 638px;
+  padding: 1.5rem 0;
+  width: fit-content;
 }
 
 summary::-webkit-details-marker {
@@ -18,7 +27,9 @@ summary {
 .treeviewer__content {
   font-size: 1rem;
   font-weight: 400;
+  height: 100%;
   line-height: 28px;
+  overflow: hidden;
 }
 
 .tree__key {
