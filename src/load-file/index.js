@@ -20,7 +20,13 @@ uploadJsonFileEl.addEventListener('change', (e) => {
 
 worker.onmessage = function(event) {
   const { name, jsonEntries } = event.data
-  showJsonTreeViewer(name, jsonEntries)
+
+  contentEl.classList.remove('content--presentation')
+  contentEl.classList.add('content--treeviewer')
+  jsonFileNameEl.innerHTML = name
+
+  if (!jsonEntries.length) return;
+  jsonEntriesToTreeViewer(jsonEntries, jsonEntries[0][0] === "0", jsonTreeViewerEl)
 }
 
 worker.onmessageerror = function() {
@@ -36,57 +42,57 @@ function showErrorMessage() {
   input.setAttribute('aria-invalid', "true")
 }
 
-function showJsonTreeViewer(filename, entries) {
-  contentEl.classList.remove('content--presentation')
-  contentEl.classList.add('content--treeviewer')
-  
-  jsonFileNameEl.innerHTML = filename
-  jsonTreeViewerEl.innerHTML = renderEntries(entries)
-}
-
-function renderEntries(entries, fromArray) {
-  let innerHtml = ""
-
+function jsonEntriesToTreeViewer(entries, fromArray, parentEl) {
   for (const [k, v] of entries) {
     const isNullable = v === null || v === undefined
     const simpleObj = typeof v !== 'object' || isNullable
     if (simpleObj) {
-      innerHtml += `<div class="${fromArray ? 'tree__position' : 'tree__key'} tree__inline">
-        ${k}: <span class="tree__value ${isNullable ? "tree__nullable" : ""}">${v}</span>
-      </div>`
+      parentEl.appendChild(createValueLine(k, v, { isNullable, fromArray }))
       continue
     }   
 
     const isArr = Array.isArray(v)
     const emptyArr = isArr && !v.length
     if (emptyArr) {
-      innerHtml += `<div class="${fromArray ? 'tree__position' : 'tree__key'} tree__inline">
-        ${k}: <span class="tree__value tree__emptyArr">[]</span>
-      </div>`
+      parentEl.appendChild(createValueLine(k, v, { emptyArr, fromArray }))
       continue
     } 
-    
-    if (isArr) {
-      innerHtml += `
-        <details class="tree__arr" open>
-        <summary class="${fromArray ? "tree__position" : "tree__key"}">
-            ${k}:
-          </summary>
-          ${renderEntries(Object.entries(v), true)}
-        </details>
-      `
-      continue
-    }
 
-    innerHtml += `
-      <details class="tree__obj" open>
-        <summary class="${fromArray ? "tree__position" : "tree__key"}">
-          ${k}:
-        </summary>
-        ${renderEntries(Object.entries(v))}
-      </details>
-    `
+    const detail = createDetail(k, { isArray: isArr, fromArray });
+    parentEl.appendChild(detail)
+    jsonEntriesToTreeViewer(Object.entries(v), isArr, detail)
   }
+}
 
-  return innerHtml;
+function createValueLine(k, v, opts = {}) {
+  const span = document.createElement('span')
+  span.textContent = opts.emptyArr ? '[]' : v;
+  span.classList.add('tree__value')
+  if (opts.isNullable) {
+    span.classList.add('tree__nullable')
+  }
+  if (opts.emptyArr) {
+    span.classList.add('tree__emptyArr')
+  }
+  
+  const line = document.createElement('div')
+  line.textContent = `${k}: `
+  line.classList.add('tree__inline')
+  line.classList.add(opts.fromArray ? 'tree__position' : 'tree__key')
+  
+  line.appendChild(span)
+  return line
+}
+
+function createDetail(k, opts = {}) {
+  const details = document.createElement('details')
+  details.classList.add(opts.isArray ? 'tree__arr' : 'tree__obj')
+  details.open = true
+
+  const summary = document.createElement('summary')
+  summary.textContent = `${k}: `
+  summary.classList.add(opts.fromArray ? 'tree__position' : 'tree__key')
+
+  details.appendChild(summary)
+  return details
 }

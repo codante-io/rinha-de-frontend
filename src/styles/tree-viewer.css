@@ -1,6 +1,7 @@
 #json-tree-viewer {
   height: 100%;
   overflow: auto;
+  width: 50vw;
 }
 
 #json-tree-viewer div {
