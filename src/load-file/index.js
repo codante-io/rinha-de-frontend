@@ -43,24 +43,27 @@ function showErrorMessage() {
 }
 
 function jsonEntriesToTreeViewer(entries, fromArray, parentEl) {
-  for (const [k, v] of entries) {
+  const details = new Map();
+
+  for (const { type, name, path, value: v, empty } of entries) {
+    const isEnd = type === "END";
+    if (isEnd) {
+      const detail = details.get(path);
+      parentEl.appendChild(detail)
+      continue
+    }
+    
+    const isObj = type === "ARRAY" || type === "OBJECT";
+    if (isObj) {
+      const detail = createDetail(name, { isArray: type === "ARRAY", fromArray })
+      details.set(path, detail)
+      continue
+    }
+
+    const p = path.replace(new RegExp(`.${name}(?!.*.${name})`), '');
+    const toAppend = details.get(p);
     const isNullable = v === null || v === undefined
-    const simpleObj = typeof v !== 'object' || isNullable
-    if (simpleObj) {
-      parentEl.appendChild(createValueLine(k, v, { isNullable, fromArray }))
-      continue
-    }   
-
-    const isArr = Array.isArray(v)
-    const emptyArr = isArr && !v.length
-    if (emptyArr) {
-      parentEl.appendChild(createValueLine(k, v, { emptyArr, fromArray }))
-      continue
-    } 
-
-    const detail = createDetail(k, { isArray: isArr, fromArray });
-    parentEl.appendChild(detail)
-    jsonEntriesToTreeViewer(Object.entries(v), isArr, detail)
+    toAppend.appendChild(createValueLine(name, v, { isNullable, emptyArr: empty, fromArray }))
   }
 }
 
